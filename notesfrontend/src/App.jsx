@@ -117,20 +117,18 @@ const App = () => {
   const handleNoteChange = (event) => {
     setNewNote(event.target.value)
   }
-
+  console.log(notesToShow)
   return (
     <div>
       <h1>Notes</h1>
       <Notification message={errorMessage} />
       <button onClick={() => setShowAll(!showAll)}>show {showAll ? 'important' : 'all'}</button>
       <ul>
-        {notesToShow.map(note =>
-
+        {Array.isArray(notesToShow) && notesToShow.map(note =>
           <Note key={note.id}
             note={note}
             toggleImportance={() => toggleImportanceOf(note.id)}
           />
-
         )}
       </ul>
       <form onSubmit={addNote}>
