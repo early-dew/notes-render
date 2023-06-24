@@ -1,6 +1,6 @@
 import axios from 'axios'
-// const baseUrl = 'http://localhost:3001/api/notes'
-const baseUrl = 'https://notes-backend-4yg3.onrender.com'
+const baseUrl = 'http://localhost:3001/api/notes'
+// const baseUrl = 'https://notes-backend-4yg3.onrender.com'
 
 const getAll = () => {
   const request = axios.get(baseUrl)
