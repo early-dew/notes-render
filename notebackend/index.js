@@ -1,9 +1,13 @@
+require('dotenv').config()
 const express = require('express')
 const app = express()
-// const baseUrl = 'https://notes-backend-4yg3.onrender.com'
-const baseUrl = 'http://localhost:3001/api/notes'
+const Note = require('./models/note')
+
+const baseUrl = 'https://notes-backend-4yg3.onrender.com'
+// const baseUrl = 'http://localhost:3001/'
 
 const cors = require('cors')
+
 
 app.use(cors())
 
@@ -15,10 +19,10 @@ const requestLogger = (request, response, next) => {
   next()
 }
 
-const getAll = () => {
-  const request = axios.get(baseUrl)
-  return request.then(response => response.data)
-}
+// const getAll = () => {
+//   const request = axios.get(baseUrl)
+//   return request.then(response => response.data)
+// }
 
 const unknownEndpoint = (request, response) => {
   console.log('Unknown endpoint:', request.method, request.path)
@@ -46,11 +50,17 @@ let notes = [
   }
 ]
 app.get('/', (request, response) => {
-  response.send('<h1>Hell of the world</h1>')
+  response.send('<h1>Notes App</h1>')
 })
 
+// app.get('/api/notes', (request, response) => {
+//   response.json(notes)
+// })
 app.get('/api/notes', (request, response) => {
-  response.json(notes)
+  Note.find({}).then(notes => {
+    response.json(notes)
+  })
+
 })
 
 app.get('/api/notes/:id', (request, response) => {
@@ -80,6 +90,6 @@ app.post('/api/notes', (request, response) => {
 
 app.use(unknownEndpoint)
 
-const PORT = process.env.PORT || 3001
+const PORT = process.env.PORT
 app.listen(PORT)
 console.log(`Server is running on port ${PORT}`)
