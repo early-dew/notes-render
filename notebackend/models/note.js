@@ -16,9 +16,14 @@ mongoose.connect(url)
   })
 
 const noteSchema = new mongoose.Schema({
-  content: String,
+  content: {
+    type: String,
+    minLength: 5,
+    required: true
+  },
   important: Boolean,
 })
+
 
 //Remove __v from the received data and set id to string because it is originally an object
 noteSchema.set('toJSON', {
