@@ -1,13 +1,15 @@
-require('dotenv').config()
+// require('dotenv').config()
 const express = require('express')
 const app = express()
 const Note = require('./models/note')
+const config = require('./utils/config')
+const logger = require('./utils/logger')
 
 // const baseUrl = 'https://notes-backend-4yg3.onrender.com'
 // const baseUrl = 'http://localhost:3001/'
 
 const cors = require('cors')
-const note = require('./models/note')
+
 
 
 app.use(cors())
@@ -31,23 +33,23 @@ app.use(requestLogger)
 
 
 
-let notes = [
-  {
-    id: 1,
-    content: "HTML is easy",
-    important: true
-  },
-  {
-    id: 2,
-    content: "Browser can execute only JavaScript",
-    important: false
-  },
-  {
-    id: 3,
-    content: "GET and POST are the most important methods of HTTP protocol",
-    important: true
-  }
-]
+// let notes = [
+//   {
+//     id: 1,
+//     content: "HTML is easy",
+//     important: true
+//   },
+//   {
+//     id: 2,
+//     content: "Browser can execute only JavaScript",
+//     important: false
+//   },
+//   {
+//     id: 3,
+//     content: "GET and POST are the most important methods of HTTP protocol",
+//     important: true
+//   }
+// ]
 app.get('/', (request, response) => {
   response.send('<h1>Notes App</h1>')
 })
@@ -88,6 +90,7 @@ app.get('/api/notes/:id', (request, response, next) => {
 
 app.delete('/api/notes/:id', (request, response) => {
   Note.findByIdAndRemove(request.params.id)
+    // eslint-disable-next-line no-unused-vars
     .then(result => {
       response.status(204).end()
     })
@@ -122,14 +125,14 @@ app.post('/api/notes', (request, response, next) => {
   const note = new Note({
     content: body.content,
     important: body.important || false,
-  });
+  })
 
   note.save()
     .then(savedNote => {
-      response.json(savedNote);
+      response.json(savedNote)
     })
     .catch(error => next(error))
-});
+})
 
 
 // app.post('/api/notes', (request, response) => {
@@ -178,6 +181,7 @@ const errorHandler = (error, request, response, next) => {
 
 app.use(errorHandler)
 
-const PORT = process.env.PORT
-app.listen(PORT)
-console.log(`Server is running on port ${PORT}`)
+// const PORT = process.env.PORT
+app.listen(config.PORT, () => {
+  logger.info(`Server is running on port ${config.PORT}`)
+})

@@ -5,7 +5,7 @@ if (process.argv.length < 3) {
   process.exit(1)
 }
 
-const pasword = process.argv[2]
+// const password = process.argv[2]
 
 const url = process.env.MONGO_URI
 
@@ -23,10 +23,10 @@ const noteSchema = new mongoose.Schema({
 
 const Note = mongoose.model('Note', noteSchema)
 
-const note = new Note({
-  content: 'All is crap',
-  important: true,
-})
+// const note = new Note({
+//   content: 'All is crap',
+//   important: true,
+// })
 
 
 Note.find({}).then(result => {
